@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: Hung
+  profiles:
+    active: '@spring.profiles.active@'
+
+
+
+
+
