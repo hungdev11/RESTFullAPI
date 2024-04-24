@@ -1,16 +1,14 @@
 package vn.demoRestFullAPI.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity(name = "tbl_address")
 public class Address extends AbstractEntity{
 
@@ -36,10 +34,10 @@ public class Address extends AbstractEntity{
     private String country;
 
     @Column(name = "address_type")
-    private String address_type;
+    private Integer addressType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private String user_id;
+    private User user;
 
 }

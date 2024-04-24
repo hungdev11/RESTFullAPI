@@ -13,7 +13,7 @@ import vn.demoRestFullAPI.util.UserStatus;
 import vn.demoRestFullAPI.util.UserType;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Set;
 
 import static vn.demoRestFullAPI.util.Gender.*;

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,20 +30,29 @@ import java.util.List;
 @Validated
 @RequestMapping("/user")
 @Slf4j
+@RequiredArgsConstructor
 @Tag(name = "User Controller")
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     @Operation(summary = "Add User", description = "API create new user")
     @PostMapping("/add")
-    public ResponseData<Integer> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
-        try {
-            userService.addUser(userDTO);
-            return new ResponseData<Integer>(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), 1);
-        } catch (Exception e) {
-            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Save user fail " + e.getMessage());
+    public ResponseData<Long> addUser(@Valid @RequestBody UserRequestDTO userDTO) {
+        log.info("Request add user {} {}", userDTO.getFirstName(), userDTO.getLastName());
+        try{
+            long userID = userService.saveUser(userDTO);
+            return new ResponseData<Long>(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), userID);
+        }catch (Exception e) {
+            log.error("Error message = {}" , e.getMessage(), e.getCause());
+            return new ResponseError(HttpStatus.BAD_REQUEST.value(), Translator.toLocale("user.add.fail"));
         }
+//        try {
+//            userService.addUser(userDTO);
+//            return new ResponseData<Integer>(HttpStatus.CREATED.value(), Translator.toLocale("user.add.success"), 1);
+//        } catch (Exception e) {
+//            return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Save user fail " + e.getMessage());
+//        }
         //return new ResponseFailure(HttpStatus.BAD_REQUEST.value(), "Can not create user");
         //return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Can not create user");
     }

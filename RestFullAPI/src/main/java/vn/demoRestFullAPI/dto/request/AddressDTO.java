@@ -1,5 +1,6 @@
 package vn.demoRestFullAPI.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 @Getter
 public class AddressDTO {
